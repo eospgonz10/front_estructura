@@ -1,16 +1,18 @@
-import './App.css';
-import { MoviesGrid } from './MoviesGrid';
-import styles from "./App.module.css"
+import React from 'react'
+import Home from './pages/Home/Home'
+import { Routes, Route } from 'react-router-dom'
+import Login from './pages/Login/Login'
 
-export function App() {
-  return <div>
-    <header>
-      <h1 className={styles.title}>Filmhub!</h1>
-    </header>
-    <main>
-      <MoviesGrid/>
-    </main>
-  </div>;
+
+const App = () => {
+  return (
+    <div>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/login' element={<Login/>}/>
+      </Routes>      
+    </div>
+  )
 }
 
-export default App;
+export default App

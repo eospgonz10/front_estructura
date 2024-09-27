@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './TitleCards.css'
 import cards_data from '../../assets/movies/movies.json'
+import { Link } from 'react-router-dom';
 
 
 const TitleCards = ({title, category}) => {
 
+  const [apiData, setApiData] = useState([]);
   const cardsRef = useRef();
 
   const options = {
@@ -22,23 +24,24 @@ const TitleCards = ({title, category}) => {
   }
 
   useEffect(()=>{
-    fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
+    fetch(`https://api.themoviedb.org/3/movie/${category?category:"top_rated"}?language=en-US&page=1`, options)
     .then(response => response.json())
-    .then(response => console.log(response))
+    .then(response => setApiData(response.results))
     .catch(err => console.error(err));
+
     cardsRef.current.addEventListener('wheel', handleWheel);
   },[])
 
-  const imageUrl = "https://image.tmdb.org/t/p/w300"
+  const imageUrl = "https://image.tmdb.org/t/p/w500"
   return (
     <div className='title-cards'>      
-      <h2>{title?title:"Popular on FilmHub!"}</h2>
+      <h2>{title?title:"Top-rated on FilmHub!"}</h2>
       <div className="card-list" ref={cardsRef}>
-        {cards_data.map((card, index)=>{
-          return <div className="card" key={index}>
+        {apiData.map((card, index)=>{
+          return <Link to={`/player/${card.id}`} className="card" key={index}>
             <img src={imageUrl+card.backdrop_path} alt="" />
             <p>{card.original_title}</p>
-          </div>
+          </Link>
         })}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+//import Home from '../Home/Home'
 import './Player.css'
 import back_arrow_icon from '../../assets/back_arrow_icon.png'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -12,7 +13,7 @@ const Player = () => {
       name: "",
       key: "",
       published_at: "",
-      typeof:""
+      typeof: ""
   })
 
   const options = {
@@ -29,12 +30,13 @@ const Player = () => {
     .then(response => response.json())
     .then(response => setApiData(response.results[0]))
     .catch(err => console.error(err));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   
   
   return (
     <div className='player'>
-      <img src={back_arrow_icon} alt="" onClick={()=>{navigate(-2)}}/>
+      <img src={back_arrow_icon} alt="" onClick={()=>{navigate('/')}}/>
       <iframe width='90%' height='90%' src={`https://youtube.com/embed/${apiData.key}`} title='trailer' frameBorder='0' allowFullScreen></iframe>
       <div className="player-info">
         <p>{apiData.published_at.slice(0,10)}</p>

@@ -8,17 +8,42 @@ import caret_icon from '../../assets/caret_icon.png'
 
 const Navbar = () => {
 
-  const navRef = useRef();
+  // const navRef = useRef();
 
-  useEffect(()=>{
-    window.addEventListener('scroll', ()=>{
-      if(window.scrollY >= 80){
-        navRef.current.classList.add('nav-dark')
-      }else{
-        navRef.current.classList.remove('nav-dark')
+  // useEffect(()=>{
+  //   window.addEventListener('scroll', ()=>{
+  //     if(window.scrollY >= 80){
+  //       navRef.current.classList.add('nav-dark')
+  //     }else{
+  //       navRef.current.classList.remove('nav-dark')
+  //     }
+  //   })
+  // },[])
+  const navRef = useRef(null);
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    window.location.href = '/login'; // Redirigir a Login después del cierre de sesión
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (navRef.current) {
+        if (window.scrollY >= 80) {
+          navRef.current.classList.add('nav-dark');
+        } else {
+          navRef.current.classList.remove('nav-dark');
+        }
       }
-    })
-  },[])
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup to remove event listener when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
 
   return (
@@ -37,7 +62,7 @@ const Navbar = () => {
           <img src={profile_icon} alt="" className='profile' />
           <img src={caret_icon} alt="" />
           <div className='dropdown'>
-            <p>Sign Out of FilmHub</p>    
+            <p onClick={logout}>Sign Out of FilmHub</p>    
           </div>
 
         </div>

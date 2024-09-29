@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './TitleCards.css'
-import cards_data from '../../assets/movies/movies.json'
+//import cards_data from '../../assets/movies/movies.json'
 import { Link } from 'react-router-dom';
 
 
@@ -30,6 +30,7 @@ const TitleCards = ({title, category}) => {
     .catch(err => console.error(err));
 
     cardsRef.current.addEventListener('wheel', handleWheel);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const imageUrl = "https://image.tmdb.org/t/p/w500"

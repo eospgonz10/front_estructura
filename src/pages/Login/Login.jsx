@@ -20,10 +20,35 @@ const Login = () => {
     gapi.load("client:auth2", start)
   }, [])
 
-  const onSuccess = (response) => {
-    console.log(response)
+  const onSuccess = async (response) => {
+    console.log(response);
     setUser(response.profileObj);
-    //window.location.href = '/'; // Redirigir a la página Home
+
+    const userData = {
+      nombre: response.profileObj.name,
+      email: response.profileObj.email,
+      avatar: response.profileObj.imageUrl
+    };
+
+    try {
+      const res = await fetch('https://curly-space-doodle-xgq9vx6w9wg3v6g-8080.app.github.dev/api/usuarios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData),
+        //mode: 'no-cors'
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to post user data');
+      }
+
+      const result = await res.json();
+      console.log('User data posted successfully:', result);
+    } catch (error) {
+      console.error('Error posting user data:', error);
+    }
   }
 
   const onFailure = (response) => {

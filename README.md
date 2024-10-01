@@ -27,12 +27,18 @@ Para instalar y configurar el proyecto, sigue estos pasos:
     ```sh
     npm install react-google-login@5.2.2 --force --no-save
     ```
+Importante: verificar que la dependencia `react-google-login` no este en el package.json. Si es así eliminarlo y volver al paso anterior.
 
 4. Inicia la aplicación:
     ```sh
     npm start
     ```
+## Codespaces
 
+Si se necesita establecer una conexión con otro codespace, es importante cambiar en el archivo Login.jsx la siguiente linea de codigo:
+```javascript 
+const res = await fetch('https://tu-url-codespaces-backend/api/usuarios'
+```
 ## Uso
 
 Para iniciar la aplicación en modo de desarrollo, ejecuta:

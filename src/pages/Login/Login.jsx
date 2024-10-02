@@ -31,7 +31,7 @@ const Login = () => {
     };
 
     try {
-      const res = await fetch('https://curly-space-doodle-xgq9vx6w9wg3v6g-8080.app.github.dev/api/usuarios', {
+      const res = await fetch('https://cautious-dollop-4jvg4g7wqpj2q775-8080.app.github.dev/api/usuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

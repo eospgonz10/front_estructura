@@ -28,7 +28,7 @@ const Player = () => {
   useEffect(()=>{
     fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options)
     .then(response => response.json())
-    .then(response => setApiData(response.results[0]))
+    .then(response => setApiData(response.results[1]))
     .catch(err => console.error(err));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])

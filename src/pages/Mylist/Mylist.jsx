@@ -19,7 +19,7 @@ const Mylist = () => {
 //       .catch((error) => console.error(error));
 //   }, []);
 useEffect(() => {
-    fetch('https://cautious-dollop-4jvg4g7wqpj2q775-8080.app.github.dev/api/contenidos/usuario/2', {
+    fetch('https://cautious-dollop-4jvg4g7wqpj2q775-8080.app.github.dev/api/contenidos/usuario/1', {
       method: 'GET',
       headers: {
         accept: 'application/json',

@@ -6,6 +6,7 @@ import hero_title from '../../assets/interstellar_title.png'
 import info_icon from '../../assets/info_icon.png'
 import TitleCards from '../../components/TitleCards/TitleCards'
 import Footer from '../../components/Footer/Footer'
+import MyContent from '../Mycontent/Mycontent'
 
 const Home = () => {
   return (
@@ -25,6 +26,7 @@ const Home = () => {
       <div className="more-cards">
       <TitleCards title={"Now playing"} category={"now_playing"}/>
       <TitleCards title={"Popular"} category={"popular"}/>
+      <MyContent/>
       </div>
       <Footer/>
     </div>

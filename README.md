@@ -2,7 +2,7 @@
 
 ![React](https://img.shields.io/badge/React-18.3.1-blue)
 ![React Router](https://img.shields.io/badge/React%20Router-6.26.2-blue)
-
+![Node](https://img.shields.io/badge/Node-20.17-green)
 
 ## Descripción
 

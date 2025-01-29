@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png'
 import search_icon from '../../assets/search_icon.svg'
 import profile_icon from '../../assets/profile_icon.png'
 import caret_icon from '../../assets/caret_icon.png'
-
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
 
@@ -20,10 +20,19 @@ const Navbar = () => {
   //   })
   // },[])
   const navRef = useRef(null);
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem('user');
     window.location.href = '/login'; // Redirigir a Login después del cierre de sesión
+  };
+
+  const handleMyList = () => {
+    navigate('/mylist'); // Redirigir a la página Mylist
+  };
+
+  const handleHome = () => {
+    navigate('/'); // Redirigir a la página Mylist
   };
 
   useEffect(() => {
@@ -51,9 +60,9 @@ const Navbar = () => {
       <div className="navbar-left">
         <img src={logo} alt="" />
         <ul>
-          <li>Home</li>
+          <li onClick={handleHome}>Home</li>
           <li>My recommendations</li>
-          <li>My list</li>
+          <li onClick={handleMyList}>My list</li>
         </ul>
       </div>
       <div className="navbar-right">

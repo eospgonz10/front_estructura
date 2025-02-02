@@ -127,3 +127,86 @@
       margin-top: 30px;
     }
   }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease; /* Añadir animación */
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px 40px; /* Aumentar el padding */
+    border-radius: 10px; /* Incrementar el radio del borde */
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Añadir sombra */
+    transition: transform 0.3s ease; /* Añadir transición */
+  }
+  
+  .modal-content h2 {
+    margin-bottom: 20px;
+    color: #2f5b80; /* Cambiar el color de la fuente */
+    font-size: 24px;
+    font-weight: 600; /* Incrementar el peso de la fuente */
+    font-family: 'Arial', sans-serif; /* Cambiar la fuente */
+  }
+  
+  .modal-content select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    height: 150px;
+    overflow-y: auto;
+    border: 2px solid #2f5b80; /* Cambiar el color del borde */
+    border-radius: 8px; /* Incrementar el radio del borde */
+    font-size: 16px;
+    font-family: 'Arial', sans-serif; /* Cambiar la fuente */
+    background: #f0f0f0; /* Añadir fondo claro */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Añadir sombra interna */
+  }
+  
+  .modal-content button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #2f5b80, #3c6da7); /* Añadir gradiente */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Incrementar el radio del borde */
+    cursor: pointer;
+    transition: background 0.3s ease; /* Añadir transición */
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Arial', sans-serif; /* Cambiar la fuente */
+  }
+  
+  .modal-content button:hover {
+    background: linear-gradient(135deg, #3c6da7, #2f5b80); /* Invertir los colores del gradiente */
+  }
+  
+  @media (max-width: 500px) {
+    .login {
+      padding: 15px 5%;
+    }
+    .login-form {
+      padding: 20px;
+      margin-top: 30px;
+    }
+  }
+  
+  /* Animación para la ventana modal */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }

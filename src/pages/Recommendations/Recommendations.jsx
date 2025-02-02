@@ -11,7 +11,7 @@ const Recommendations = () => {
     console.log('User ID:', userId);
 
     // Usar el userId para hacer la petición
-    fetch(`https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/recomendaciones/usuario/${userId}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/recomendaciones/usuario/${userId}`, {
       method: 'GET',
       headers: {
         accept: 'application/json',
@@ -37,7 +37,7 @@ const Recommendations = () => {
     }
 
     try {
-      const response = await fetch(`https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/UsuarioContenido/${idUsuario}/${idContenido}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/UsuarioContenido/${idUsuario}/${idContenido}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

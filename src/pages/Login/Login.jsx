@@ -6,7 +6,7 @@ import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const clientID = "241763796900-nne9ot7arobltendogv6lagjhpcc0g5b.apps.googleusercontent.com";
+  const clientID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
   const [user, setUser] = useState({});
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -23,11 +23,11 @@ const Login = () => {
     gapi.load("client:auth2", start);
 
     // Fetch genres
-    fetch('https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/generos')
+    fetch(`${process.env.REACT_APP_API_URL}/generos`)
       .then(response => response.json())
       .then(data => setGenres(data))
       .catch(error => console.error('Error fetching genres:', error));
-  }, []);
+  }, [clientID]);
 
   const onSuccess = async (response) => {
     console.log(response);
@@ -40,7 +40,7 @@ const Login = () => {
     };
 
     try {
-      const res = await fetch('https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/usuarios', {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/usuarios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ const Login = () => {
     const userId = localStorage.getItem('userId');
     try {
       for (const genreId of selectedGenres) {
-        const res = await fetch(`https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/GeneroUsuario/${genreId}/${userId}`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/GeneroUsuario/${genreId}/${userId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

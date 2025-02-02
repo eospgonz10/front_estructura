@@ -13,7 +13,7 @@ const MyContent = () => {
   };
 
   useEffect(() => {
-    fetch('https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/contenidos')
+    fetch(`${process.env.REACT_APP_API_URL}/contenidos`)
       .then((response) => response.json())
       .then((data) => setApiData(data))
       .catch((err) => console.error(err));
@@ -41,7 +41,7 @@ const MyContent = () => {
     }
 
     try {
-      const response = await fetch(`https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/UsuarioContenido/${idUsuario}/${idContenido}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/UsuarioContenido/${idUsuario}/${idContenido}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

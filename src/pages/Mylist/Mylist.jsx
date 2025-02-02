@@ -11,7 +11,7 @@ const Mylist = () => {
     console.log('User ID:', userId);
     
     // Usar el userId para hacer la petición
-    fetch(`https://special-bassoon-5ggqwpx44qp5cx4w-8080.app.github.dev/api/contenidos/usuario/${userId}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/contenidos/usuario/${userId}`, {
       method: 'GET',
       headers: {
         accept: 'application/json',

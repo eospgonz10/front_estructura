@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Home.css'
 import Navbar from '../../components/Navbar/Navbar'
 import hero_banner from '../../assets/interstellar_banner.jpg'
@@ -9,6 +9,13 @@ import Footer from '../../components/Footer/Footer'
 import MyContent from '../Mycontent/Mycontent'
 
 const Home = () => {
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    console.log('User ID:', userId);
+    // Puedes usar el userId para hacer peticiones o cualquier otra lógica
+  }, []);
+  
   return (
     <div className='home'>
       <Navbar/>

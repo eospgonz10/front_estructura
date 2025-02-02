@@ -5,6 +5,11 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 const Mylist = () => {
   const [movies, setMovies] = useState([]);
+  useEffect(() => {
+      const userId = localStorage.getItem('userId');
+      console.log('User ID:', userId);
+      // Puedes usar el userId para hacer peticiones o cualquier otra lógica
+    }, []);
 
 //   useEffect(() => {
 //     fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=2', {

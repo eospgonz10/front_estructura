@@ -10,6 +10,8 @@ const Login = () => {
   const [user, setUser] = useState({});
   const navigate = useNavigate();
   const [signState, setSignState] = useState("Sign In")
+  localStorage.setItem('userId', 1);
+  console.log(localStorage.getItem('userId'));
 
   useEffect(() => {
     const start = () =>{
@@ -29,6 +31,9 @@ const Login = () => {
       email: response.profileObj.email,
       avatar: response.profileObj.imageUrl
     };
+
+    // Guardar el ID del usuario en localStorage
+  localStorage.setItem('userId', response.profileObj.googleId);
 
     try {
       const res = await fetch('https://cautious-dollop-4jvg4g7wqpj2q775-8080.app.github.dev/api/usuarios', {

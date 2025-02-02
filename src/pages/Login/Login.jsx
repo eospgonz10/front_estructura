@@ -8,6 +8,7 @@ const Login = () => {
 
   const clientID = "241763796900-nne9ot7arobltendogv6lagjhpcc0g5b.apps.googleusercontent.com";
   const [user, setUser] = useState({});
+  const [genres, setGenres] = useState([]);
   const navigate = useNavigate();
   const [signState, setSignState] = useState("Sign In")
   localStorage.setItem('userId', 1);
@@ -20,6 +21,13 @@ const Login = () => {
       })
     }
     gapi.load("client:auth2", start)
+
+
+    // Fetch genres
+    fetch('https://congenial-space-enigma-6x7r4w6gvr93j5x-8080.app.github.dev/api/generos')
+      .then(response => response.json())
+      .then(data => setGenres(data))
+      .catch(error => console.error('Error fetching genres:', error));
   }, [])
 
   const onSuccess = async (response) => {
@@ -99,6 +107,14 @@ const Login = () => {
         </form>
         <div className="form-switch">
           {signState==="Sign In"?<p>New to FilmHub!? <span onClick={()=>{setSignState("Sign Up")}}>Sign Up Now</span></p>:<p>Already have account? <span onClick={()=>{setSignState("Sign In")}}>Sign In Now</span></p>}
+        </div>
+        <div className="genre-select">
+          <label htmlFor="genres">Seleciona tu genero favorito:</label>
+          <select id="genres">
+            {genres.map(genre => (
+              <option key={genre.id} value={genre.id}>{genre.nombre}</option>
+            ))}
+          </select>
         </div> 
       </div>
     </div>

@@ -8,6 +8,9 @@ const Login = () => {
 
   const clientID = "241763796900-nne9ot7arobltendogv6lagjhpcc0g5b.apps.googleusercontent.com";
   const [user, setUser] = useState({});
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [signState, setSignState] = useState("Sign In")
   localStorage.setItem('userId', 1);
@@ -20,6 +23,13 @@ const Login = () => {
       })
     }
     gapi.load("client:auth2", start)
+
+
+    // Fetch genres
+    fetch('https://congenial-space-enigma-6x7r4w6gvr93j5x-8080.app.github.dev/api/generos')
+      .then(response => response.json())
+      .then(data => setGenres(data))
+      .catch(error => console.error('Error fetching genres:', error));
   }, [])
 
   const onSuccess = async (response) => {
@@ -51,6 +61,7 @@ const Login = () => {
 
       const result = await res.json();
       console.log('User data posted successfully:', result);
+      setIsModalOpen(true); // Abrir la ventana modal después de iniciar sesión
     } catch (error) {
       console.error('Error posting user data:', error);
     }
@@ -58,6 +69,33 @@ const Login = () => {
 
   const onFailure = (response) => {
     console.log("Something went wrong!")
+  }
+
+  const handleSaveGenre = async (e) => {
+    const userId = localStorage.getItem('userId');
+    try {
+      const res = await fetch(`https://congenial-space-enigma-6x7r4w6gvr93j5x-8080.app.github.dev/api/GeneroUsuario/${selectedGenre}/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to save genre');
+      }
+
+      const result = await res.json();
+      console.log('Genre saved successfully:', result);
+      navigate('/'); // Redirigir a la página de inicio
+    } catch (error) {
+      console.error('Error saving genre:', error);
+    }
+  }
+
+  const openModal = (e) => {
+    e.preventDefault(); // Prevenir el comportamiento predeterminado del botón
+    setIsModalOpen(true);
   }
 
   return (
@@ -95,12 +133,29 @@ const Login = () => {
               <label htmlFor="">Remember me</label>
             </div>
             <p>Need help?</p>
+          <button onClick={openModal}>Click Me</button>
           </div>
         </form>
         <div className="form-switch">
           {signState==="Sign In"?<p>New to FilmHub!? <span onClick={()=>{setSignState("Sign Up")}}>Sign Up Now</span></p>:<p>Already have account? <span onClick={()=>{setSignState("Sign In")}}>Sign In Now</span></p>}
-        </div> 
+        </div>
       </div>
+
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Seleciona tu genero favorito:</h2>
+            <select id="genres" onChange={(e) => setSelectedGenre(e.target.value)}>
+              <option value="">Selecciona un género</option>
+              {genres.map(genre => (
+                <option key={genre.id} value={genre.id}>{genre.nombre}</option>
+              ))}
+            </select>
+            <button onClick={handleSaveGenre}>Guardar</button>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }

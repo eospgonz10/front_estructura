@@ -7,20 +7,24 @@ import Mylist from './pages/Mylist/Mylist'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Recommendations from './pages/Recommendations/Recommendations'
+import { AuthProvider } from './AuthContext';
+import ProtectedRoute from './ProtectedRoute';
 
 const App = () => {
   return (
-    <div>
-      <ToastContainer theme='dark' />
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/player/:id' element={<Player/>}/>
-        <Route path='/mylist' element={<Mylist/>}/>
-        <Route path='/recommendations' element={<Recommendations/>}/>
-      </Routes>      
-    </div>
-  )
+    <AuthProvider>
+      <div>
+        <ToastContainer theme='dark' />
+        <Routes>
+          <Route path='/' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/player/:id' element={<ProtectedRoute><Player /></ProtectedRoute>} />
+          <Route path='/mylist' element={<ProtectedRoute><Mylist /></ProtectedRoute>} />
+          <Route path='/recommendations' element={<ProtectedRoute><Recommendations /></ProtectedRoute>} />
+        </Routes>
+      </div>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

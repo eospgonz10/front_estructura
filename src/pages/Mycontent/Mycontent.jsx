@@ -3,6 +3,7 @@ import './Mycontent.css';
 
 const MyContent = () => {
   const [apiData, setApiData] = useState([]);
+  const [hoveredCard, setHoveredCard] = useState(null);
   const cardsRef = useRef();
 
   const handleWheel = (event) => {
@@ -34,9 +35,11 @@ const MyContent = () => {
   };
 
   const handleAddContent = async (idContenido) => {
-    const idUsuario = localStorage.getItem('userId');
+    const idUsuario = sessionStorage.getItem('userId');
+    console.log('User ID:', idUsuario); // Depurar para verificar el userId
+
     if (!idUsuario) {
-      console.error('User ID is not available in localStorage.');
+      console.error('User ID is not available in sessionStorage.');
       return;
     }
 
@@ -62,12 +65,25 @@ const MyContent = () => {
     }
   };
 
+  const handleMouseOver = (card) => {
+    setHoveredCard(card);
+  };
+
+  const handleMouseOut = () => {
+    setHoveredCard(null);
+  };
+
   return (
     <div className='mycontent-container'>
       <h2>Custom Content</h2>
       <div className="mycontent-card-list" ref={cardsRef}>
         {apiData.map((card) => (
-          <div className="mycontent-card" key={card.id}>
+          <div 
+            className="mycontent-card" 
+            key={card.id}
+            onMouseOver={() => handleMouseOver(card)}
+            onMouseOut={handleMouseOut}
+          >
             <img src={replacePosterUrl(card.poster)} alt={card.titulo} />
             <p>{card.titulo}</p>
             <button 
@@ -78,6 +94,16 @@ const MyContent = () => {
           </div>
         ))}
       </div>
+      
+      {hoveredCard && (
+        <div className="content-modal">
+          <h3>{hoveredCard.titulo}</h3>
+          <p><strong>Release Year:</strong> {hoveredCard.anioLanzamiento}</p>
+          <p><strong>Synopsis:</strong> {hoveredCard.sinopsis}</p>
+          <p><strong>IMDb Rating:</strong> {hoveredCard.imdbRating}</p>
+          <p><strong>Classification:</strong> {hoveredCard.clasificacion}</p>
+        </div>
+      )}
     </div>
   );
 };

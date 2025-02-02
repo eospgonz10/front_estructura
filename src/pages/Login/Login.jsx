@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
 import './Login.css';
 import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../AuthContext';
 
 const Login = () => {
   const clientID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-  const [user, setUser] = useState({});
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [signState, setSignState] = useState("Sign In");
+  const { login } = useContext(AuthContext);
 
   useEffect(() => {
     const start = () => {
@@ -31,7 +32,6 @@ const Login = () => {
 
   const onSuccess = async (response) => {
     console.log(response);
-    setUser(response.profileObj);
 
     const userData = {
       nombre: response.profileObj.name,
@@ -55,8 +55,12 @@ const Login = () => {
       const result = await res.json();
       console.log('User data posted successfully:', result);
 
-      // Guardar el ID del usuario en localStorage
-      localStorage.setItem('userId', result.id);
+      // Guardar el ID del usuario y el token en sessionStorage
+      sessionStorage.setItem('userId', result.id);
+      sessionStorage.setItem('token', response.tokenId);
+
+      // Iniciar sesión en el contexto
+      login(response.tokenId);
 
       setIsModalOpen(true); // Abrir la ventana modal después de iniciar sesión
     } catch (error) {
@@ -69,7 +73,12 @@ const Login = () => {
   };
 
   const handleSaveGenres = async () => {
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
+    if (!userId) {
+      console.error('User ID not found in sessionStorage');
+      return;
+    }
+
     try {
       for (const genreId of selectedGenres) {
         const res = await fetch(`${process.env.REACT_APP_API_URL}/GeneroUsuario/${genreId}/${userId}`, {

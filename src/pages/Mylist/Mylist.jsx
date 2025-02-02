@@ -7,10 +7,9 @@ const Mylist = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
     console.log('User ID:', userId);
     
-    // Usar el userId para hacer la petición
     fetch(`${process.env.REACT_APP_API_URL}/contenidos/usuario/${userId}`, {
       method: 'GET',
       headers: {
@@ -19,15 +18,35 @@ const Mylist = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Modificar la URL del poster
         const formattedMovies = data.map((movie) => ({
           ...movie,
-          poster: movie.poster.replace('http://example.com', 'https://image.tmdb.org/t/p/w500'), // Ajustar ya que la ruta de example no es necesaria
+          poster: movie.poster.replace('http://example.com', 'https://image.tmdb.org/t/p/w500'),
         }));
         setMovies(formattedMovies);
       })
       .catch((error) => console.error(error));
   }, []);
+
+  const handleRemoveContent = async (userId, contentId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/UsuarioContenido/${userId}/${contentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to remove content');
+      }
+      
+      // Actualizar el estado de la lista de películas
+      setMovies((prevMovies) => prevMovies.filter((movie) => movie.id !== contentId));
+      console.log('Content removed successfully');
+    } catch (error) {
+      console.error('Error removing content:', error);
+    }
+  };
 
   return (
     <div className="mylist-container">
@@ -43,7 +62,12 @@ const Mylist = () => {
             />
             <p className="movie-title">{movie.titulo}</p>
             <p>
-              <AiOutlineClose size={30} className='close-button'/>
+              <AiOutlineClose 
+                size={30} 
+                className='close-button' 
+                title="Remove from my list"
+                onClick={() => handleRemoveContent(sessionStorage.getItem('userId'), movie.id)}
+              />
             </p>
           </div>
         ))}

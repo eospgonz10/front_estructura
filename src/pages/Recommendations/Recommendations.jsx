@@ -7,7 +7,7 @@ const Recommendations = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
     console.log('User ID:', userId);
 
     // Usar el userId para hacer la petición
@@ -30,9 +30,9 @@ const Recommendations = () => {
   }, []);
 
   const handleAddToMyList = async (idContenido) => {
-    const idUsuario = localStorage.getItem('userId');
+    const idUsuario = sessionStorage.getItem('userId');
     if (!idUsuario) {
-      console.error('User ID is not available in localStorage.');
+      console.error('User ID is not available in sessionStorage.');
       return;
     }
 

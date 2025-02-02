@@ -12,7 +12,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem('userId');
+    sessionStorage.removeItem('userId');
     window.location.href = '/login'; // Redirigir a Login después del cierre de sesión
   };
 

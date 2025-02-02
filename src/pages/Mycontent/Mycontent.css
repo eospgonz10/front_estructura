@@ -1,10 +1,16 @@
+/* Importar la fuente 'Roboto' desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .mycontent-container {
     margin-top: 50px;
     margin-bottom: 30px;
+    font-family: 'Roboto', sans-serif; /* Aplicar la fuente Roboto */
 }
 
 .mycontent-container h2 {
     margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 700;
 }
 
 .mycontent-card-list {
@@ -33,6 +39,10 @@
     right: 10px;
     text-decoration: none;
     color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 4px;
+    font-weight: 700;
 }
 
 .mycontent-add-button {
@@ -54,6 +64,37 @@
     background-color: #ddd;
 }
 
+/* Estilos para el modal */
+.content-modal {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background: rgba(128, 128, 128, 0.8); /* Fondo gris con transparencia */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 300px;
+    text-align: left;
+    font-family: 'Roboto', sans-serif; /* Aplicar la fuente Roboto */
+    backdrop-filter: blur(10px); /* Añadir desenfoque de fondo */
+}
+
+.content-modal h3 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #2f5b80;
+    font-weight: 700;
+}
+
+.content-modal p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Ajustes responsivos */
 @media (max-width: 800px) {
     .mycontent-container {
         margin-top: 20px;
@@ -91,5 +132,10 @@
         height: 20px;
         font-size: 14px;
         line-height: 20px;
+    }
+    .content-modal {
+        width: 90%;
+        left: 50%;
+        transform: translate(-50%, -20%);
     }
 }

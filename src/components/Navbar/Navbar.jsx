@@ -8,22 +8,11 @@ import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
 
-  // const navRef = useRef();
-
-  // useEffect(()=>{
-  //   window.addEventListener('scroll', ()=>{
-  //     if(window.scrollY >= 80){
-  //       navRef.current.classList.add('nav-dark')
-  //     }else{
-  //       navRef.current.classList.remove('nav-dark')
-  //     }
-  //   })
-  // },[])
   const navRef = useRef(null);
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
     window.location.href = '/login'; // Redirigir a Login después del cierre de sesión
   };
 
@@ -33,6 +22,10 @@ const Navbar = () => {
 
   const handleHome = () => {
     navigate('/'); // Redirigir a la página Mylist
+  };
+
+  const handleRecommendations = () => {
+    navigate('/recommendations'); // Redirigir a la página Recommendations
   };
 
   useEffect(() => {
@@ -61,7 +54,7 @@ const Navbar = () => {
         <img src={logo} alt="" />
         <ul>
           <li onClick={handleHome}>Home</li>
-          <li>My recommendations</li>
+          <li onClick={handleRecommendations}>My recommendations</li>
           <li onClick={handleMyList}>My list</li>
         </ul>
       </div>

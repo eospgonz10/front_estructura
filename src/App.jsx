@@ -6,6 +6,7 @@ import Player from './pages/Player/Player'
 import Mylist from './pages/Mylist/Mylist'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Recommendations from './pages/Recommendations/Recommendations'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/login' element={<Login/>}/>
         <Route path='/player/:id' element={<Player/>}/>
         <Route path='/mylist' element={<Mylist/>}/>
+        <Route path='/recommendations' element={<Recommendations/>}/>
       </Routes>      
     </div>
   )

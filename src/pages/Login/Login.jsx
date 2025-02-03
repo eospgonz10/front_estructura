@@ -39,32 +39,76 @@ const Login = () => {
       avatar: response.profileObj.imageUrl
     };
 
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/usuarios`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData),
-      });
+    if (signState === "Sign Up") {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/usuarios/correo/${userData.email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
-      if (!res.ok) {
-        throw new Error('Failed to post user data');
+        if (res.ok) {
+          // Usuario ya registrado
+          alert('You are already registered');
+          return;
+        } else if (res.status === 500) {
+          // Usuario no encontrado, proceder con registro
+          const registerRes = await fetch(`${process.env.REACT_APP_API_URL}/usuarios`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData),
+          });
+
+          if (!registerRes.ok) {
+            throw new Error('Failed to register user');
+          }
+
+          const result = await registerRes.json();
+          console.log('User registered successfully:', result);
+
+          // Guardar el ID del usuario y el token en sessionStorage
+          sessionStorage.setItem('userId', result.id);
+          sessionStorage.setItem('token', response.tokenId);
+
+          // Iniciar sesión en el contexto
+          login(response.tokenId);
+
+          setIsModalOpen(true); // Abrir la ventana modal después de registrarse
+        }
+      } catch (error) {
+        console.error('Error during registration:', error);
       }
+    } else if (signState === "Sign In") {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/usuarios/correo/${userData.email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
-      const result = await res.json();
-      console.log('User data posted successfully:', result);
+        if (!res.ok) {
+          throw new Error('User not found');
+        }
 
-      // Guardar el ID del usuario y el token en sessionStorage
-      sessionStorage.setItem('userId', result.id);
-      sessionStorage.setItem('token', response.tokenId);
+        const result = await res.json();
+        console.log('User data fetched successfully:', result);
 
-      // Iniciar sesión en el contexto
-      login(response.tokenId);
+        // Guardar el ID del usuario y el token en sessionStorage
+        sessionStorage.setItem('userId', result.id);
+        sessionStorage.setItem('token', response.tokenId);
 
-      setIsModalOpen(true); // Abrir la ventana modal después de iniciar sesión
-    } catch (error) {
-      console.error('Error posting user data:', error);
+        // Iniciar sesión en el contexto
+        login(response.tokenId);
+
+        navigate('/'); // Redirigir a la página de inicio
+      } catch (error) {
+        console.error('Error during sign-in:', error);
+        alert('User not found. Please sign up first.');
+      }
     }
   };
 
@@ -137,14 +181,18 @@ const Login = () => {
           </div>
         </form>
         <div className="form-switch">
-          {signState === "Sign In" ? <p>New to FilmHub!? <span onClick={() => { setSignState("Sign Up") }}>Sign Up Now</span></p> : <p>Already have account? <span onClick={() => { setSignState("Sign In") }}>Sign In Now</span></p>}
+          {signState === "Sign In" ? (
+            <p>New to FilmHub!? <span onClick={() => setSignState("Sign Up")}>Sign Up Now</span></p>
+          ) : (
+            <p>Already have an account? <span onClick={() => setSignState("Sign In")}>Sign In Now</span></p>
+          )}
         </div>
       </div>
 
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Seleciona tus géneros favoritos:</h2>
+            <h2>Select your favorite genres:</h2>
             <select id="genres" multiple onChange={handleGenreChange}>
               {genres.map(genre => (
                 <option key={genre.id} value={genre.id}>{genre.nombre}</option>
